@@ -11,6 +11,7 @@ public class Job {
         return pcb;
     }
 
+    //  Provides job and PCB details for logging.
     public String getJobDetails()
     {
         return "JobId : " + this.pcb.getId() + " Burst Time : " + this.pcb.getBurstTime() + " Memory Required : " + this.pcb.getMemoryRequired();
