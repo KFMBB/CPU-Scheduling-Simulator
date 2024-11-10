@@ -17,4 +17,9 @@ public class Job {
         return "JobId : " + this.pcb.getId() + " Burst Time : " + this.pcb.getBurstTime() + " Memory Required : " + this.pcb.getMemoryRequired();
 
     }
+    public void updateJobState(State state)
+    {
+        this.pcb.setState(state); // The Status Shall be Reached through getState()
+    }
+
 }
