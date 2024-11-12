@@ -1,4 +1,5 @@
-public enum State {
+public enum State
+{
     NEW,         // Job is created but not yet scheduled
     READY,       // Job is ready and waiting in the queue
     RUNNING,     // Job is currently being processed

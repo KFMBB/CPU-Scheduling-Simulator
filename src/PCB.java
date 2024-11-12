@@ -1,4 +1,5 @@
-public class PCB {
+public class PCB
+{
     private int id;
     private int burstTime;
     private int memoryRequired;

@@ -1,4 +1,5 @@
-public class Job {
+public class Job
+{
     private PCB pcb ; // Each process (job) initialized will be assigned a PCB.
 
     public Job(int jobId, int burstTime, int memoryRequired)

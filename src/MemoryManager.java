@@ -1,13 +1,14 @@
-public class MemoryManager {
+public class MemoryManager
+{
  private final int totalMemory = 1024 ;
  private static int usedMemory ;
 
     public  boolean checkMemory(int memoryRequired)
     {
-        return memoryRequired + usedMemory <= totalMemory;
+        return memoryRequired + usedMemory <= totalMemory; // this shall return if there is enough memory or not
     }
-    public void allocateMemory(int memoryRequired)
-    {
+    public void allocateMemory(int memoryRequired) // this method shall allocate memory
+    {                                              // iff there is enough memory it shall print an error message
         if (checkMemory(memoryRequired))
             usedMemory += memoryRequired;
         else
