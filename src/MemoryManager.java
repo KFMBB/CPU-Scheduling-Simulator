@@ -3,14 +3,13 @@ import java.util.Queue;
 public class MemoryManager implements Runnable {
     private Queue<Job> jobQueue;
     private Queue<Job> readyQueue;
-    private final int totalMemory;
+    private final int totalMemory = 1024;
     private int usedMemory = 0;
     private static int arrivalTime;
 
-    public MemoryManager(Queue<Job> jobQueue, Queue<Job> readyQueue, int totalMemory) {
+    public MemoryManager(Queue<Job> jobQueue, Queue<Job> readyQueue) {
         this.jobQueue = jobQueue;
         this.readyQueue = readyQueue;
-        this.totalMemory = totalMemory;
         this.arrivalTime = 0;
     }
 
