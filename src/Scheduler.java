@@ -38,7 +38,6 @@ public class Scheduler implements Runnable {
             int counter = 0; // Counter to bound the burst time
             int log = 0;     // Log variable to keep track of waiting time (WT) and turnaround time (TA)
             Job job = readyQueue.poll(); // Get the job at the head of the queue to process
-            job.getPcb().setWaitingTime(log); // Set the waiting time
             int burstTime = job.getPcb().getBurstTime();
             systemCall.startProcess(job);
             // Simulate job processing

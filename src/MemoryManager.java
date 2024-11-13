@@ -43,7 +43,7 @@ public class MemoryManager implements Runnable {
                     System.out.println(job.getJobDetails()+ " moved to readyQueue with ");
                 } else {
                     System.out.println("Insufficient memory for Job " + job.getPcb().getId() + ". Waiting for memory to become available.");
-                    arrivalTime++;
+                    arrivalTime++; // Since we're not counting the time that the jobs in the job queue are kept, we'll keep track of when they got into the ready queue.
                 }
             }
         }
