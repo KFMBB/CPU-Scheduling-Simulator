@@ -3,9 +3,9 @@ import java.util.Queue ;
 
 public class Scheduler
 {
-    Queue<Job> readyQueue = new LinkedList<Job>() ;
-    Queue<Job> jobQueue = new LinkedList<Job>() ;
-    MemoryManager Mx = new MemoryManager() ;
+    public Queue<Job> readyQueue = new LinkedList<Job>() ;
+    public Queue<Job> jobQueue = new LinkedList<Job>() ;
+    private MemoryManager Mx = new MemoryManager() ;
     int timeQuantum = 8 ;
 
     public void loadJobsToReadyQueue() // this method shall load Jobs to ready Queue
