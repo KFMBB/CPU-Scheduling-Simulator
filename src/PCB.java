@@ -16,6 +16,7 @@ public class PCB
         this.memoryRequired = memoryRequired;
         this.state = State.NEW;      // Initialize to NEW state
         this.remainingTime = burstTime;
+        this.arrivalTime = 0; // Assumption that the arrival time is set to 0 (non-preemptive).
     }
 
     // Getters and setters for each attribute
