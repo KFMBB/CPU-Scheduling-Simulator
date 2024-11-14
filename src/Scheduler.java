@@ -10,7 +10,7 @@ public class Scheduler implements Runnable {
     public Scheduler(Queue<Job> readyQueue,String schedulingAlgorithm) {
         this.readyQueue = readyQueue;
         this.schedulingAlgorithm = schedulingAlgorithm;
-        systemCall  = new SystemCalls();
+        this.systemCall  = new SystemCalls();
     }
 
     // The main run method to start the scheduler thread
@@ -48,6 +48,7 @@ public class Scheduler implements Runnable {
             counter = 0;
             job.getPcb().setTurnaroundTime(log - job.getPcb().getArrivalTime()); // Set turnaround time
             job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - burstTime);  // Set the waiting time
+            systemCall.releaseMemory(job);
             systemCall.terminateProcess(job);
             System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " +
                     job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());

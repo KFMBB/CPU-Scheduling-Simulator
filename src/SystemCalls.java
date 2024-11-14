@@ -1,5 +1,16 @@
+import java.util.Queue;
+
 public class SystemCalls
 {
+    MemoryManager memoryManager;
+
+    public SystemCalls(MemoryManager memoryManager) {
+        this.memoryManager = memoryManager;
+    }
+    // Default constrictor
+    public SystemCalls() {
+    }
+
     public void startProcess(Job job)
     {
         job.updateJobState(State.RUNNING); // START RUNNING THE PROCESS
@@ -12,5 +23,10 @@ public class SystemCalls
     {
         job.getJobDetails() ; // RETURN PROCESS DETAILS
     }
-
+    public void releaseMemory(Job job){
+        memoryManager.releaseMemory(job.getPcb().getMemoryRequired());
+    }
+    public void allocateMemory(Job job){
+        memoryManager.allocateMemory(job.getPcb().getMemoryRequired());
+    }
 }

@@ -4,13 +4,18 @@ public class MemoryManager implements Runnable {
     private Queue<Job> jobQueue;
     private Queue<Job> readyQueue;
     private final int totalMemory = 1024;
-    private int usedMemory = 0;
-    private static int arrivalTime;
-
+    private int usedMemory;
+    private int arrivalTime;
+    SystemCalls systemCalls;
     public MemoryManager(Queue<Job> jobQueue, Queue<Job> readyQueue) {
         this.jobQueue = jobQueue;
         this.readyQueue = readyQueue;
         this.arrivalTime = 0;
+        this.usedMemory = 0;
+        this.systemCalls = new SystemCalls(this);
+    }
+    // Default constructor
+    public MemoryManager() {
     }
 
     // Check if there is enough memory available
@@ -33,10 +38,9 @@ public class MemoryManager implements Runnable {
         while (true) {
             if (!jobQueue.isEmpty()) {
                 Job job = jobQueue.peek(); // Look at the first job in the jobQueue
-                int memoryRequired = job.getPcb().getMemoryRequired();
 
-                if (checkMemory(memoryRequired)) {
-                    allocateMemory(memoryRequired); // Allocate memory for the job
+                if (checkMemory(job.getPcb().getMemoryRequired())) {
+                    systemCalls.allocateMemory(job); // Allocate memory for the job
                     job.getPcb().setArrivalTime(arrivalTime);
                     readyQueue.add(jobQueue.poll()); // Move job to the readyQueue
                     System.out.println(job.getJobDetails()+ " moved to readyQueue with ");
