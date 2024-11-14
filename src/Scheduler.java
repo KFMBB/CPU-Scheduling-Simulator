@@ -7,12 +7,12 @@ public class Scheduler implements Runnable {
     private Queue<Job> readyQueue;
     private final int timeQuantum = 8;
     private String schedulingAlgorithm; // Define which scheduling algorithm to use
-    private SystemCalls systemCall;
+    MemoryManager memoryManager;
     // Constructor to set time quantum and scheduling algorithm
-    public Scheduler(Queue<Job> readyQueue,String schedulingAlgorithm) {
+    public Scheduler(Queue<Job> readyQueue,String schedulingAlgorithm, MemoryManager memoryManager) {
         this.readyQueue = readyQueue;
         this.schedulingAlgorithm = schedulingAlgorithm;
-        this.systemCall  = new SystemCalls();
+        this.memoryManager  = memoryManager;
     }
 
     // The main run method to start the scheduler thread
@@ -41,7 +41,7 @@ public class Scheduler implements Runnable {
             int log = 0;     // Log variable to keep track of waiting time (WT) and turnaround time (TA)
             Job job = readyQueue.poll(); // Get the job at the head of the queue to process
             int burstTime = job.getPcb().getBurstTime();
-            systemCall.startProcess(job);
+            memoryManager.systemCalls.startProcess(job);
             // Simulate job processing
             while (counter != burstTime) {
                 counter++;
@@ -50,8 +50,8 @@ public class Scheduler implements Runnable {
             counter = 0;
             job.getPcb().setTurnaroundTime(log - job.getPcb().getArrivalTime()); // Set turnaround time
             job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - burstTime);  // Set the waiting time
-            systemCall.releaseMemory(job);
-            systemCall.terminateProcess(job);
+            memoryManager.systemCalls.releaseMemory(job);
+            memoryManager.systemCalls.terminateProcess(job);
             System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " +
                     job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());
         }
@@ -66,7 +66,7 @@ public class Scheduler implements Runnable {
 
                 Job job=readyQueue.poll();
                 int remainingTime = job.getPcb().getRemainingTime(); //RemainingTime inital is burst time
-                systemCall.startProcess(job);
+                memoryManager.systemCalls.startProcess(job);
                 int i=timeQuantum;
                 // Simulate job processing for TimeQuantum which is 8 ms
                 while(i>0 && remainingTime!=0) {
@@ -79,8 +79,8 @@ public class Scheduler implements Runnable {
 
                     job.getPcb().setTurnaroundTime(log - job.getPcb().getArrivalTime());
                     job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - job.getPcb().getBurstTime());
-                    systemCall.releaseMemory(job);
-                    systemCall.terminateProcess(job);
+                    memoryManager.systemCalls.releaseMemory(job);
+                    memoryManager.systemCalls.terminateProcess(job);
                 }
                 else {  //update remaingTime if not finshed and add to ready queue again until its finshed
 

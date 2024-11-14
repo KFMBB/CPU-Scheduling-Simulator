@@ -1,27 +1,26 @@
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class main
-{
-    public static void main(String[] args)
-    {
-         Queue<Job> readyQueue = new LinkedList<Job>();
+public class main {
+    public static void main(String[] args) {
+        Queue<Job> readyQueue = new LinkedList<Job>();
 
-         Queue<Job> jobQueue = new LinkedList<>();
+        Queue<Job> jobQueue = new LinkedList<>();
 
-         String schedulingAlgorithm = "" , filePath = "" ;
+        String schedulingAlgorithm = "", filePath = "";
 
-         Scheduler scheduler = new Scheduler(readyQueue , schedulingAlgorithm) ;
+        MemoryManager memoryManager = new MemoryManager(jobQueue, readyQueue);
 
-         JobLoader jobLoader = new JobLoader(jobQueue , filePath ) ;
+        Scheduler scheduler = new Scheduler(readyQueue, schedulingAlgorithm, memoryManager);
 
-         MemoryManager memoryManager = new MemoryManager(jobQueue , readyQueue) ;
+        JobLoader jobLoader = new JobLoader(jobQueue, filePath);
 
-        Thread jobLoaderThread = new Thread(jobLoader) ;
 
-        Thread memoryManagerThread = new Thread(memoryManager) ;
+        Thread jobLoaderThread = new Thread(jobLoader);
 
-        Thread schedulerThread = new Thread(scheduler) ;
+        Thread memoryManagerThread = new Thread(memoryManager);
+
+        Thread schedulerThread = new Thread(scheduler);
 
         schedulerThread.start();
 
@@ -32,21 +31,20 @@ public class main
         try {
             schedulerThread.join();
         } catch (InterruptedException e) {
-            throw new RuntimeException("Error in Scheduler Thread") ;
+            throw new RuntimeException("Error in Scheduler Thread");
         }
 
         try {
             jobLoaderThread.join();
         } catch (InterruptedException e) {
-            throw new RuntimeException("Error in JobLoader Thread") ;
+            throw new RuntimeException("Error in JobLoader Thread");
         }
 
         try {
             memoryManagerThread.join();
         } catch (InterruptedException e) {
-            throw new RuntimeException("Error in MemoryManager Thread") ;
+            throw new RuntimeException("Error in MemoryManager Thread");
         }
-
 
 
     }
