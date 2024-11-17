@@ -1,5 +1,7 @@
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.PriorityQueue;
+import java.util.Comparator;
 
 
 
@@ -96,11 +98,51 @@ public class Scheduler implements Runnable {
     }
     // Placeholder for SJF ALGO
     public void runSJF() {
+        PriorityQueue<Job> PreadyQueue = new PriorityQueue<Job>();
 
-    }
+        while (!readyQueue.isEmpty()) {  //empty the readyQueue to the Priorty Queue
+            Job job = readyQueue.poll();
+            PreadyQueue.add(job);
+        }
+        while (!PreadyQueue.isEmpty()) { //copied the FCFS and i'm not sure
+
+            Job job = PreadyQueue.poll();
+            int counter=0;
+            int log=0;
+            int burstTime = job.getPcb().getBurstTime();
+            memoryManager.systemCalls.startProcess(job);
+
+            //Simulate job processing
+
+            while (counter != burstTime) {
+                counter++;
+                log++;
+            }
+            counter = 0;
+            job.getPcb().setTurnaroundTime(log - job.getPcb().getArrivalTime()); // Set turnaround time
+            job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - burstTime);  // Set the waiting time
+            memoryManager.systemCalls.releaseMemory(job);
+            memoryManager.systemCalls.terminateProcess(job);
+            System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " +
+            job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());
+
+            while (!readyQueue.isEmpty()) { //check if the readyQueue got any new jobs after completing a job and then insert it in the priorty Queue
+                Job job1 = readyQueue.poll();
+                PreadyQueue.add(job1);
+            }
+
+        }
+
+
+
+        }
+
+
+
 
     public void calculateStats() {
 
-
     }
 }
+
+

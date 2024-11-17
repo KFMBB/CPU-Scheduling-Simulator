@@ -1,4 +1,5 @@
-public class Job
+import java.util.Comparator;
+public class Job implements Comparable<Job>
 {
     private PCB pcb ; // Each process (job) initialized will be assigned a PCB.
 
@@ -21,6 +22,10 @@ public class Job
     public void updateJobState(State state)
     {
         this.pcb.setState(state); // The Status Shall be Reached through getState()
+    }
+    @Override
+    public int compareTo(Job other) {
+        return Integer.compare(this.getPcb().getBurstTime(), other.getPcb().getBurstTime());
     }
 
 }
