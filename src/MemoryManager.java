@@ -1,21 +1,19 @@
 import java.util.Queue;
 
 public class MemoryManager implements Runnable {
-    private Queue<Job> jobQueue;
-    private Queue<Job> readyQueue;
+    public Queue<Job> jobQueue;
+    public Queue<Job> readyQueue;
     private final int totalMemory = 1024;
     private int usedMemory;
     private int arrivalTime;
-    SystemCalls systemCalls;
+    public SystemCalls systemCalls;
+
     public MemoryManager(Queue<Job> jobQueue, Queue<Job> readyQueue) {
         this.jobQueue = jobQueue;
         this.readyQueue = readyQueue;
         this.arrivalTime = 0;
         this.usedMemory = 0;
         this.systemCalls = new SystemCalls(this);
-    }
-    // Default constructor
-    public MemoryManager() {
     }
 
     // Check if there is enough memory available
@@ -43,11 +41,20 @@ public class MemoryManager implements Runnable {
                     systemCalls.allocateMemory(job); // Allocate memory for the job
                     job.getPcb().setArrivalTime(arrivalTime);
                     readyQueue.add(jobQueue.poll()); // Move job to the readyQueue
-                    System.out.println(job.getJobDetails()+ " moved to readyQueue with ");
-                } else {
+                    System.out.println("--------");
+                    System.out.println(job.getJobDetails()+" added to ready queue.");
+                }
+                else {
                     System.out.println("Insufficient memory for Job " + job.getPcb().getId() + ". Waiting for memory to become available.");
+                    System.out.println("Memory used: " + usedMemory);
                     arrivalTime++; // Since we're not counting the time that the jobs in the job queue are kept, we'll keep track of when they got into the ready queue.
                 }
+            }
+
+            if(jobQueue.isEmpty() && readyQueue.isEmpty()) {
+                System.out.println("----------"); // For debugging
+                System.out.println("Memory Manager thread finished execution");
+                break;
             }
         }
     }

@@ -1,23 +1,23 @@
 import java.util.LinkedList;
-import java.util.Queue;
 import java.util.PriorityQueue;
-import java.util.Comparator;
-
+import java.util.Queue;
 
 
 public class Scheduler implements Runnable {
-    private Queue<Job> readyQueue;
+    private final Queue<Job> readyQueue;
     private final int timeQuantum = 8;
-    private String schedulingAlgorithm; // Define which scheduling algorithm to use
-    MemoryManager memoryManager;
+    private final String schedulingAlgorithm; // Define which scheduling algorithm to use
+    private final MemoryManager memoryManager;
     private Queue<Job> FCFS;
     private Queue<Job> roundRobin;
     private Queue<Job> SJF;
+    private static int log = 0;     // Log variable to keep track of waiting time (WT) and turnaround time (TA)
+
     // Constructor to set time quantum and scheduling algorithm
-    public Scheduler(Queue<Job> readyQueue,String schedulingAlgorithm, MemoryManager memoryManager) {
+    public Scheduler(Queue<Job> readyQueue, String schedulingAlgorithm, MemoryManager memoryManager) {
         this.readyQueue = readyQueue;
         this.schedulingAlgorithm = schedulingAlgorithm;
-        this.memoryManager  = memoryManager;
+        this.memoryManager = memoryManager;
     }
 
     // The main run method to start the scheduler thread
@@ -41,106 +41,108 @@ public class Scheduler implements Runnable {
     // FCFS scheduling implementation
     public void runFCFS() {
 
-        while (!readyQueue.isEmpty()) {
-            int counter = 0; // Counter to bound the burst time
-            int log = 0;     // Log variable to keep track of waiting time (WT) and turnaround time (TA)
-            Job job = readyQueue.poll(); // Get the job at the head of the queue to process
-            int burstTime = job.getPcb().getBurstTime();
-            memoryManager.systemCalls.startProcess(job);
-            // Simulate job processing
-            while (counter != burstTime) {
-                counter++;
-                log++;
+        FCFS = new LinkedList<Job>();
+        while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {
+            Job job = memoryManager.readyQueue.poll(); // Get the job at the head of the queue to process
+            if (job != null) {
+                int counter = 0; // Counter to bound the burst time
+                int burstTime = job.getPcb().getBurstTime();
+                memoryManager.systemCalls.startProcess(job);
+                System.out.println("----------"); // For debugging
+                System.out.println(job.getJobDetails() + " started execution.");
+                // Simulate job processing
+                while (counter != burstTime) {
+                    counter++;
+                    log++;
+                }
+                counter = 0;
+                job.getPcb().setTurnaroundTime(log); // Set turnaround time
+                job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - burstTime);  // Set the waiting time
+                memoryManager.systemCalls.terminateProcess(job);
+                System.out.println("----------"); // For debugging
+                System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " + job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());
+                FCFS.add(job);
             }
-            counter = 0;
-            job.getPcb().setTurnaroundTime(log - job.getPcb().getArrivalTime()); // Set turnaround time
-            job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - burstTime);  // Set the waiting time
-            memoryManager.systemCalls.releaseMemory(job);
-            memoryManager.systemCalls.terminateProcess(job);
-            System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " +
-                    job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());
-            FCFS.add(job);
         }
+        System.out.println("----------"); // For debugging
+        System.out.println(schedulingAlgorithm + " thread of execution is done.");
     }
 
     // Placholder for RR Algo
     public void runRoundRobin() {
 
-            int log = 0;
-
-            while (!readyQueue.isEmpty()){
-
-                Job job=readyQueue.poll();
+        roundRobin = new LinkedList<Job>();
+        while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {
+            Job job = readyQueue.poll();
+            if (job != null) {
                 int remainingTime = job.getPcb().getRemainingTime(); //RemainingTime inital is burst time
                 memoryManager.systemCalls.startProcess(job);
-                int i=timeQuantum;
+                int i = timeQuantum;
                 // Simulate job processing for TimeQuantum which is 8 ms
-                while(i>0 && remainingTime!=0) {
+                while (i > 0 && remainingTime != 0) {
                     remainingTime--;
                     log++;
                     i--;
                 }
                 // check if job is finshed if so terminate
-                if(remainingTime==0) {
-
+                if (remainingTime == 0) {
                     job.getPcb().setTurnaroundTime(log - job.getPcb().getArrivalTime());
                     job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - job.getPcb().getBurstTime());
                     memoryManager.systemCalls.releaseMemory(job);
                     memoryManager.systemCalls.terminateProcess(job);
                     roundRobin.add(job);
-                }
-                else {  //update remaingTime if not finshed and add to ready queue again until its finshed
-
+                } else {  //update remaingTime if not finshed and add to ready queue again until its finshed
                     job.getPcb().setRemainingTime(remainingTime);
                     readyQueue.add(job);
-
                 }
-
             }
-
-
-
+        }
+        System.out.println("----------"); // For debugging
+        System.out.println(schedulingAlgorithm + " thread of execution is done.");
     }
+
     // Placeholder for SJF ALGO
     public void runSJF() {
+
         PriorityQueue<Job> PreadyQueue = new PriorityQueue<Job>();
-
-        while (!readyQueue.isEmpty()) {  //empty the readyQueue to the Priorty Queue
-            Job job = readyQueue.poll();
-            PreadyQueue.add(job);
-        }
-        while (!PreadyQueue.isEmpty()) { //copied the FCFS and i'm not sure
-
-            Job job = PreadyQueue.poll();
-            int counter=0;
-            int log=0;
-            int burstTime = job.getPcb().getBurstTime();
-            memoryManager.systemCalls.startProcess(job);
-
-            //Simulate job processing
-
-            while (counter != burstTime) {
-                counter++;
-                log++;
+        SJF = new LinkedList<Job>();
+        while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {//empty the readyQueue to the Priorty Queue
+            while(!memoryManager.readyQueue.isEmpty()) {
+                Job job = readyQueue.poll();
+                if (job != null) {
+                    PreadyQueue.add(job);
+                }
             }
-            counter = 0;
-            job.getPcb().setTurnaroundTime(log - job.getPcb().getArrivalTime()); // Set turnaround time
-            job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - burstTime);  // Set the waiting time
-            memoryManager.systemCalls.releaseMemory(job);
-            memoryManager.systemCalls.terminateProcess(job);
-            System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " +
-            job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());
-            SJF.add(job);
-            while (!readyQueue.isEmpty()) { //check if the readyQueue got any new jobs after completing a job and then insert it in the priorty Queue
-                Job job1 = readyQueue.poll();
-                PreadyQueue.add(job1);
+            while (!PreadyQueue.isEmpty()) { //copied the FCFS and i'm not sure
+
+                Job Sjob = PreadyQueue.poll();
+                int counter = 0;
+                int burstTime = Sjob.getPcb().getBurstTime();
+                memoryManager.systemCalls.startProcess(Sjob);
+
+                //Simulate Sjob processing
+
+                while (counter != burstTime) {
+                    counter++;
+                    log++;
+                }
+                counter = 0;
+                Sjob.getPcb().setTurnaroundTime(log - Sjob.getPcb().getArrivalTime()); // Set turnaround time
+                Sjob.getPcb().setWaitingTime(Sjob.getPcb().getTurnaroundTime() - burstTime);  // Set the waiting time
+                memoryManager.systemCalls.releaseMemory(Sjob);
+                memoryManager.systemCalls.terminateProcess(Sjob);
+                System.out.println("Job " + Sjob.getPcb().getId() + " completed with Turnaround Time: " +
+                        Sjob.getPcb().getTurnaroundTime() + ", Waiting Time: " + Sjob.getPcb().getWaitingTime());
+                SJF.add(Sjob);
+                while (!readyQueue.isEmpty()) { //check if the readyQueue got any new jobs after completing a Sjob and then insert it in the priorty Queue
+                    Job job1 = readyQueue.poll();
+                    PreadyQueue.add(job1);
+                }
             }
-
         }
-
-
-
-        }
+        System.out.println("----------"); // For debugging
+        System.out.println(schedulingAlgorithm + " thread of execution is done.");
+    }
 
     public void calculateStats() {
 
@@ -148,7 +150,7 @@ public class Scheduler implements Runnable {
         int size = FCFS.size();//reset size, turnaround and waiting time
         int averageTurnaround = 0;
         int averageWaiting = 0;
-        while(!FCFS.isEmpty()) {   //Calculate total turnaround time and waiting time
+        while (!FCFS.isEmpty()) {   //Calculate total turnaround time and waiting time
             Job job = FCFS.poll();
             averageTurnaround += job.getPcb().getTurnaroundTime();
             averageWaiting += job.getPcb().getWaitingTime();
@@ -167,7 +169,7 @@ public class Scheduler implements Runnable {
         averageTurnaround = 0;
         averageWaiting = 0;
 
-        while(!roundRobin.isEmpty()) {  //Calculate total turnaround time and waiting time
+        while (!roundRobin.isEmpty()) {  //Calculate total turnaround time and waiting time
             Job job = roundRobin.poll();
             averageTurnaround += job.getPcb().getTurnaroundTime();
             averageWaiting += job.getPcb().getWaitingTime();
@@ -186,7 +188,7 @@ public class Scheduler implements Runnable {
         averageTurnaround = 0;
         averageWaiting = 0;
 
-        while(!SJF.isEmpty()) {  //Calculate total turnaround time and waiting time
+        while (!SJF.isEmpty()) {  //Calculate total turnaround time and waiting time
             Job job = SJF.poll();
             averageTurnaround += job.getPcb().getTurnaroundTime();
             averageWaiting += job.getPcb().getWaitingTime();
@@ -197,5 +199,19 @@ public class Scheduler implements Runnable {
         averageWaiting = averageWaiting / size; //Calculate averageWaitingtime
         System.out.println("\nThe Average Waiting time : " + averageWaiting);
 
+    }
+
+    public Queue<Job> getCompletedJobs(String schedulingAlgorithm) {
+        switch (schedulingAlgorithm) {
+            case "FCFS":
+                return FCFS;
+            case "RoundRobin":
+                return roundRobin;
+            case "SJF":
+                return SJF;
+            default:
+                System.out.println("Unknown scheduling algorithm.");
+                return null;
+        }
     }
 }

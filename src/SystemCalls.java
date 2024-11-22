@@ -1,5 +1,3 @@
-import java.util.Queue;
-
 public class SystemCalls
 {
     MemoryManager memoryManager;
@@ -18,6 +16,8 @@ public class SystemCalls
     public void terminateProcess(Job job)
     {
         job.updateJobState(State.TERMINATED); // TERMINATE THE PROCESS
+        releaseMemory(job);
+        System.out.println(job.getJobDetails()+" terminated");
     }
     public void getProcessInfo(Job job)
     {

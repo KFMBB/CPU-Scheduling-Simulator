@@ -17,12 +17,10 @@ public class JobLoader implements Runnable
     @Override
     public void run()
     {
-
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = br.readLine()) != null)
             {
-                // Example line: "1:25;500" (ID:burst time in ms;memory required in MB)
                 String[] parts = line.split("[:;]");
                 int jobId = Integer.parseInt(parts[0]);
                 int burstTime = Integer.parseInt(parts[1]);
@@ -31,9 +29,9 @@ public class JobLoader implements Runnable
                 // Create a new Job with parsed data
                 Job job = new Job(jobId, burstTime, memoryRequired);
 
-
                 jobQueue.add(job);
-
+                System.out.println("----------"); // For debugging
+                System.out.println(job.getJobDetails() + " added to job queue" );
             }
         } catch (IOException e)
         {
