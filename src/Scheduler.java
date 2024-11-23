@@ -120,6 +120,7 @@ public class Scheduler implements Runnable {
                     readyQueue.add(job);
                 }
                 executionLog.log(job.getPcb().getId(), startTime, startTime+8, remainingTime, job.getPcb().getState());
+                // Check !!!!!!!!
             }
             else {
                 System.out.println("-----------------------------------------------------------------------------"); // For debugging
@@ -156,7 +157,7 @@ public class Scheduler implements Runnable {
                     PreadyQueue.add(job);
                 }
             }
-            while (!PreadyQueue.isEmpty()) { //copied the FCFS and i'm not sure
+            while (!PreadyQueue.isEmpty()) {
 
                 Job Sjob = PreadyQueue.poll();
                 int counter = 0;
@@ -173,18 +174,13 @@ public class Scheduler implements Runnable {
                     log++;
                 }
                 counter = 0;
-                Sjob.getPcb().setTurnaroundTime(log - Sjob.getPcb().getArrivalTime()); // Set turnaround time
+                Sjob.getPcb().setTurnaroundTime(log); // Set turnaround time
                 Sjob.getPcb().setWaitingTime(Sjob.getPcb().getTurnaroundTime() - burstTime);  // Set the waiting time
-                memoryManager.systemCalls.releaseMemory(Sjob);
                 memoryManager.systemCalls.terminateProcess(Sjob);
                 System.out.println("Job " + Sjob.getPcb().getId() + " completed with Turnaround Time: " +
                         Sjob.getPcb().getTurnaroundTime() + ", Waiting Time: " + Sjob.getPcb().getWaitingTime());
                 SJF.add(Sjob);
                 executionLog.log(Sjob.getPcb().getId(), startTime, log, 0, Sjob.getPcb().getState()); // This will keep detailed logs of scheduling behavior.
-                while (!readyQueue.isEmpty()) { //check if the readyQueue got any new jobs after completing a Sjob and then insert it in the priorty Queue
-                    Job job1 = readyQueue.poll();
-                    PreadyQueue.add(job1);
-                }
             }
         }
         System.out.println("-----------------------------------------------------------------------------"); // For debugging

@@ -69,12 +69,12 @@ public class main {
             throw new RuntimeException("Error in Scheduler Thread");
         }
 
-//        scheduler.calculateStats(schedulingAlgorithm);
+
 
         reportGenerator.generatePerformanceReport(scheduler.getCompletedJobs(schedulingAlgorithm), schedulingAlgorithm);
         reportGenerator.generateExecutionLogReport(scheduler.getExecutionLog().getLogEntries(), schedulingAlgorithm);
 
-
+        scheduler.calculateStats(schedulingAlgorithm);
 
     }
 }

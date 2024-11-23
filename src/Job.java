@@ -16,7 +16,7 @@ public class Job implements Comparable<Job>
     //  Provides job and PCB details for logging.
     public String getJobDetails()
     {
-        return "JobId : " + this.pcb.getId() + " Burst Time : " + this.pcb.getBurstTime() + " Memory Required : " + this.pcb.getMemoryRequired();
+        return "JobId : " + this.pcb.getId() + " | Burst Time : " + this.pcb.getBurstTime() + " | Memory Required : " + this.pcb.getMemoryRequired();
 
     }
     public void updateJobState(State state)
