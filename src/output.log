@@ -53,9 +53,6 @@ JobId : 24 Burst Time : 12 Memory Required : 100 added to job queue
 ----------
 JobId : 25 Burst Time : 14 Memory Required : 180 added to job queue
 -----------------------------------------------------------------------------
------------------------------------------------------------------------------
-Waiting for Memory manager to add jobs to readyQueue.
-
 JobId : 1 Burst Time : 10 Memory Required : 200 added to ready queue.
 
 -----------------------------------------------------------------------------
@@ -76,48 +73,39 @@ Waiting for memory to become available.
 Memory used: 1000
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
+Waiting for Memory manager to add jobs to readyQueue.
 -----------------------------------------------------------------------------
 Insufficient memory for Job JobId : 6 Burst Time : 30 Memory Required : 400
 Waiting for memory to become available.
 Memory used: 1000
 -----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
 JobId : 1 Burst Time : 10 Memory Required : 200 started execution.
 
 JobId : 1 Burst Time : 10 Memory Required : 200 terminated
------------------------------------------------------------------------------
 Job 1 completed with Turnaround Time: 10, Waiting Time: 0
-
------------------------------------------------------------------------------
-JobId : 2 Burst Time : 15 Memory Required : 300 started execution.
-
-JobId : 2 Burst Time : 15 Memory Required : 300 terminated
------------------------------------------------------------------------------
-Job 2 completed with Turnaround Time: 25, Waiting Time: 10
-
------------------------------------------------------------------------------
-JobId : 3 Burst Time : 20 Memory Required : 150 started execution.
-
-JobId : 3 Burst Time : 20 Memory Required : 150 terminated
------------------------------------------------------------------------------
-Job 3 completed with Turnaround Time: 45, Waiting Time: 25
-
------------------------------------------------------------------------------
-JobId : 4 Burst Time : 25 Memory Required : 250 started execution.
-
-JobId : 4 Burst Time : 25 Memory Required : 250 terminated
------------------------------------------------------------------------------
-Job 4 completed with Turnaround Time: 70, Waiting Time: 45
-
 -----------------------------------------------------------------------------
 JobId : 5 Burst Time : 12 Memory Required : 100 started execution.
 
 JobId : 5 Burst Time : 12 Memory Required : 100 terminated
+Job 5 completed with Turnaround Time: 22, Waiting Time: 10
 -----------------------------------------------------------------------------
-Job 5 completed with Turnaround Time: 82, Waiting Time: 70
+JobId : 2 Burst Time : 15 Memory Required : 300 started execution.
 
+JobId : 2 Burst Time : 15 Memory Required : 300 terminated
+Job 2 completed with Turnaround Time: 37, Waiting Time: 22
+-----------------------------------------------------------------------------
+JobId : 3 Burst Time : 20 Memory Required : 150 started execution.
+
+JobId : 3 Burst Time : 20 Memory Required : 150 terminated
+Job 3 completed with Turnaround Time: 57, Waiting Time: 37
+-----------------------------------------------------------------------------
+JobId : 4 Burst Time : 25 Memory Required : 250 started execution.
+
+JobId : 4 Burst Time : 25 Memory Required : 250 terminated
+Job 4 completed with Turnaround Time: 82, Waiting Time: 57
 -----------------------------------------------------------------------------
 Waiting for Memory manager to add jobs to readyQueue.
-
 -----------------------------------------------------------------------------
 JobId : 6 Burst Time : 30 Memory Required : 400 added to ready queue.
 
@@ -126,38 +114,6 @@ JobId : 7 Burst Time : 18 Memory Required : 220 added to ready queue.
 
 -----------------------------------------------------------------------------
 JobId : 8 Burst Time : 22 Memory Required : 180 added to ready queue.
-
------------------------------------------------------------------------------
-Insufficient memory for Job JobId : 9 Burst Time : 16 Memory Required : 240
-Waiting for memory to become available.
-Memory used: 800
------------------------------------------------------------------------------
------------------------------------------------------------------------------
-JobId : 6 Burst Time : 30 Memory Required : 400 started execution.
-
-JobId : 6 Burst Time : 30 Memory Required : 400 terminated
------------------------------------------------------------------------------
-Job 6 completed with Turnaround Time: 112, Waiting Time: 82
-
------------------------------------------------------------------------------
-JobId : 7 Burst Time : 18 Memory Required : 220 started execution.
-
-JobId : 7 Burst Time : 18 Memory Required : 220 terminated
------------------------------------------------------------------------------
-Job 7 completed with Turnaround Time: 130, Waiting Time: 112
-
------------------------------------------------------------------------------
-JobId : 8 Burst Time : 22 Memory Required : 180 started execution.
-
-JobId : 8 Burst Time : 22 Memory Required : 180 terminated
------------------------------------------------------------------------------
-Job 8 completed with Turnaround Time: 152, Waiting Time: 130
-
------------------------------------------------------------------------------
-Waiting for Memory manager to add jobs to readyQueue.
-
------------------------------------------------------------------------------
-Waiting for Memory manager to add jobs to readyQueue.
 
 -----------------------------------------------------------------------------
 JobId : 9 Burst Time : 16 Memory Required : 240 added to ready queue.
@@ -169,40 +125,63 @@ JobId : 10 Burst Time : 14 Memory Required : 200 added to ready queue.
 JobId : 11 Burst Time : 28 Memory Required : 320 added to ready queue.
 
 -----------------------------------------------------------------------------
-Insufficient memory for Job JobId : 12 Burst Time : 24 Memory Required : 270
-Waiting for memory to become available.
-Memory used: 760
------------------------------------------------------------------------------
------------------------------------------------------------------------------
-JobId : 9 Burst Time : 16 Memory Required : 240 started execution.
-
-JobId : 9 Burst Time : 16 Memory Required : 240 terminated
------------------------------------------------------------------------------
-Job 9 completed with Turnaround Time: 168, Waiting Time: 152
-
------------------------------------------------------------------------------
-JobId : 10 Burst Time : 14 Memory Required : 200 started execution.
-
-JobId : 10 Burst Time : 14 Memory Required : 200 terminated
------------------------------------------------------------------------------
-Job 10 completed with Turnaround Time: 182, Waiting Time: 168
-
------------------------------------------------------------------------------
-JobId : 11 Burst Time : 28 Memory Required : 320 started execution.
-
-JobId : 11 Burst Time : 28 Memory Required : 320 terminated
------------------------------------------------------------------------------
-Job 11 completed with Turnaround Time: 210, Waiting Time: 182
-
------------------------------------------------------------------------------
-Waiting for Memory manager to add jobs to readyQueue.
-
------------------------------------------------------------------------------
 JobId : 12 Burst Time : 24 Memory Required : 270 added to ready queue.
 
 -----------------------------------------------------------------------------
 JobId : 13 Burst Time : 19 Memory Required : 190 added to ready queue.
 
+-----------------------------------------------------------------------------
+Insufficient memory for Job JobId : 14 Burst Time : 11 Memory Required : 130
+Waiting for memory to become available.
+Memory used: 1020
+-----------------------------------------------------------------------------
+-----------------------------------------------------------------------------
+Insufficient memory for Job JobId : 14 Burst Time : 11 Memory Required : 130
+Waiting for memory to become available.
+-----------------------------------------------------------------------------
+JobId : 10 Burst Time : 14 Memory Required : 200 started execution.
+
+JobId : 10 Burst Time : 14 Memory Required : 200 terminated
+Memory used: 1020
+-----------------------------------------------------------------------------
+Job 10 completed with Turnaround Time: 94, Waiting Time: 80
+-----------------------------------------------------------------------------
+JobId : 9 Burst Time : 16 Memory Required : 240 started execution.
+
+JobId : 9 Burst Time : 16 Memory Required : 240 terminated
+Job 9 completed with Turnaround Time: 110, Waiting Time: 94
+-----------------------------------------------------------------------------
+JobId : 7 Burst Time : 18 Memory Required : 220 started execution.
+
+JobId : 7 Burst Time : 18 Memory Required : 220 terminated
+Job 7 completed with Turnaround Time: 128, Waiting Time: 110
+-----------------------------------------------------------------------------
+JobId : 13 Burst Time : 19 Memory Required : 190 started execution.
+
+JobId : 13 Burst Time : 19 Memory Required : 190 terminated
+Job 13 completed with Turnaround Time: 147, Waiting Time: 128
+-----------------------------------------------------------------------------
+JobId : 8 Burst Time : 22 Memory Required : 180 started execution.
+
+JobId : 8 Burst Time : 22 Memory Required : 180 terminated
+Job 8 completed with Turnaround Time: 169, Waiting Time: 147
+-----------------------------------------------------------------------------
+JobId : 12 Burst Time : 24 Memory Required : 270 started execution.
+
+JobId : 12 Burst Time : 24 Memory Required : 270 terminated
+Job 12 completed with Turnaround Time: 193, Waiting Time: 169
+-----------------------------------------------------------------------------
+JobId : 11 Burst Time : 28 Memory Required : 320 started execution.
+
+JobId : 11 Burst Time : 28 Memory Required : 320 terminated
+Job 11 completed with Turnaround Time: 221, Waiting Time: 193
+-----------------------------------------------------------------------------
+JobId : 6 Burst Time : 30 Memory Required : 400 started execution.
+
+JobId : 6 Burst Time : 30 Memory Required : 400 terminated
+Job 6 completed with Turnaround Time: 251, Waiting Time: 221
+-----------------------------------------------------------------------------
+Waiting for Memory manager to add jobs to readyQueue.
 -----------------------------------------------------------------------------
 JobId : 14 Burst Time : 11 Memory Required : 130 added to ready queue.
 
@@ -211,57 +190,6 @@ JobId : 15 Burst Time : 13 Memory Required : 170 added to ready queue.
 
 -----------------------------------------------------------------------------
 JobId : 16 Burst Time : 21 Memory Required : 210 added to ready queue.
-
------------------------------------------------------------------------------
-Insufficient memory for Job JobId : 17 Burst Time : 27 Memory Required : 310
-Waiting for memory to become available.
-Memory used: 970
------------------------------------------------------------------------------
------------------------------------------------------------------------------
------------------------------------------------------------------------------
-Insufficient memory for Job JobId : 17 Burst Time : 27 Memory Required : 310
-Waiting for memory to become available.
-JobId : 12 Burst Time : 24 Memory Required : 270 started execution.
-
-Memory used: 970
------------------------------------------------------------------------------
-JobId : 12 Burst Time : 24 Memory Required : 270 terminated
------------------------------------------------------------------------------
-Job 12 completed with Turnaround Time: 234, Waiting Time: 210
-
------------------------------------------------------------------------------
-JobId : 13 Burst Time : 19 Memory Required : 190 started execution.
-
-JobId : 13 Burst Time : 19 Memory Required : 190 terminated
------------------------------------------------------------------------------
-Job 13 completed with Turnaround Time: 253, Waiting Time: 234
-
------------------------------------------------------------------------------
-JobId : 14 Burst Time : 11 Memory Required : 130 started execution.
-
-JobId : 14 Burst Time : 11 Memory Required : 130 terminated
------------------------------------------------------------------------------
-Job 14 completed with Turnaround Time: 264, Waiting Time: 253
-
------------------------------------------------------------------------------
-JobId : 15 Burst Time : 13 Memory Required : 170 started execution.
-
-JobId : 15 Burst Time : 13 Memory Required : 170 terminated
------------------------------------------------------------------------------
-Job 15 completed with Turnaround Time: 277, Waiting Time: 264
-
------------------------------------------------------------------------------
-JobId : 16 Burst Time : 21 Memory Required : 210 started execution.
-
-JobId : 16 Burst Time : 21 Memory Required : 210 terminated
------------------------------------------------------------------------------
-Job 16 completed with Turnaround Time: 298, Waiting Time: 277
-
------------------------------------------------------------------------------
-Waiting for Memory manager to add jobs to readyQueue.
-
------------------------------------------------------------------------------
-Waiting for Memory manager to add jobs to readyQueue.
 
 -----------------------------------------------------------------------------
 JobId : 17 Burst Time : 27 Memory Required : 310 added to ready queue.
@@ -276,50 +204,6 @@ JobId : 19 Burst Time : 17 Memory Required : 150 added to ready queue.
 JobId : 20 Burst Time : 23 Memory Required : 230 added to ready queue.
 
 -----------------------------------------------------------------------------
-Insufficient memory for Job JobId : 21 Burst Time : 29 Memory Required : 330
-Waiting for memory to become available.
-Memory used: 980
------------------------------------------------------------------------------
------------------------------------------------------------------------------
------------------------------------------------------------------------------
-JobId : 17 Burst Time : 27 Memory Required : 310 started execution.
-
-Insufficient memory for Job JobId : 21 Burst Time : 29 Memory Required : 330
-Waiting for memory to become available.
-Memory used: 670
------------------------------------------------------------------------------
-JobId : 17 Burst Time : 27 Memory Required : 310 terminated
------------------------------------------------------------------------------
-Job 17 completed with Turnaround Time: 325, Waiting Time: 298
-
------------------------------------------------------------------------------
-JobId : 18 Burst Time : 26 Memory Required : 290 started execution.
-
-JobId : 18 Burst Time : 26 Memory Required : 290 terminated
------------------------------------------------------------------------------
-Job 18 completed with Turnaround Time: 351, Waiting Time: 325
-
------------------------------------------------------------------------------
-JobId : 19 Burst Time : 17 Memory Required : 150 started execution.
-
-JobId : 19 Burst Time : 17 Memory Required : 150 terminated
------------------------------------------------------------------------------
-Job 19 completed with Turnaround Time: 368, Waiting Time: 351
-
------------------------------------------------------------------------------
-JobId : 20 Burst Time : 23 Memory Required : 230 started execution.
-
-JobId : 20 Burst Time : 23 Memory Required : 230 terminated
------------------------------------------------------------------------------
-Job 20 completed with Turnaround Time: 391, Waiting Time: 368
-
------------------------------------------------------------------------------
-Waiting for Memory manager to add jobs to readyQueue.
-
------------------------------------------------------------------------------
------------------------------------------------------------------------------
-Waiting for Memory manager to add jobs to readyQueue.
-
 JobId : 21 Burst Time : 29 Memory Required : 330 added to ready queue.
 
 -----------------------------------------------------------------------------
@@ -332,68 +216,69 @@ JobId : 23 Burst Time : 25 Memory Required : 250 added to ready queue.
 JobId : 24 Burst Time : 12 Memory Required : 100 added to ready queue.
 
 -----------------------------------------------------------------------------
-Insufficient memory for Job JobId : 25 Burst Time : 14 Memory Required : 180
-Waiting for memory to become available.
-Memory used: 880
------------------------------------------------------------------------------
------------------------------------------------------------------------------
-Insufficient memory for Job JobId : 25 Burst Time : 14 Memory Required : 180
-Waiting for memory to become available.
-Memory used: 880
------------------------------------------------------------------------------
------------------------------------------------------------------------------
-JobId : 21 Burst Time : 29 Memory Required : 330 started execution.
-
-JobId : 21 Burst Time : 29 Memory Required : 330 terminated
------------------------------------------------------------------------------
-Job 21 completed with Turnaround Time: 420, Waiting Time: 391
+JobId : 25 Burst Time : 14 Memory Required : 180 added to ready queue.
 
 -----------------------------------------------------------------------------
-JobId : 22 Burst Time : 20 Memory Required : 200 started execution.
+JobId : 14 Burst Time : 11 Memory Required : 130 started execution.
 
-JobId : 22 Burst Time : 20 Memory Required : 200 terminated
------------------------------------------------------------------------------
-Job 22 completed with Turnaround Time: 440, Waiting Time: 420
-
------------------------------------------------------------------------------
-JobId : 23 Burst Time : 25 Memory Required : 250 started execution.
-
-JobId : 23 Burst Time : 25 Memory Required : 250 terminated
------------------------------------------------------------------------------
-Job 23 completed with Turnaround Time: 465, Waiting Time: 440
-
+JobId : 14 Burst Time : 11 Memory Required : 130 terminated
+Job 14 completed with Turnaround Time: 260, Waiting Time: 249
 -----------------------------------------------------------------------------
 JobId : 24 Burst Time : 12 Memory Required : 100 started execution.
 
 JobId : 24 Burst Time : 12 Memory Required : 100 terminated
+Job 24 completed with Turnaround Time: 272, Waiting Time: 260
 -----------------------------------------------------------------------------
-Job 24 completed with Turnaround Time: 477, Waiting Time: 465
+JobId : 15 Burst Time : 13 Memory Required : 170 started execution.
 
------------------------------------------------------------------------------
-Waiting for Memory manager to add jobs to readyQueue.
-
------------------------------------------------------------------------------
-Waiting for Memory manager to add jobs to readyQueue.
-
------------------------------------------------------------------------------
-JobId : 25 Burst Time : 14 Memory Required : 180 added to ready queue.
-
+JobId : 15 Burst Time : 13 Memory Required : 170 terminated
+Job 15 completed with Turnaround Time: 285, Waiting Time: 272
 -----------------------------------------------------------------------------
 JobId : 25 Burst Time : 14 Memory Required : 180 started execution.
 
 JobId : 25 Burst Time : 14 Memory Required : 180 terminated
+Job 25 completed with Turnaround Time: 299, Waiting Time: 285
 -----------------------------------------------------------------------------
-Job 25 completed with Turnaround Time: 491, Waiting Time: 477
+JobId : 19 Burst Time : 17 Memory Required : 150 started execution.
 
+JobId : 19 Burst Time : 17 Memory Required : 150 terminated
+Job 19 completed with Turnaround Time: 316, Waiting Time: 299
 -----------------------------------------------------------------------------
-FCFS thread of execution is done.
----------------------------------------------------
-Scheduling Algorithm: FCFS stats
+JobId : 22 Burst Time : 20 Memory Required : 200 started execution.
 
-The Average Turn Around Time : 249
+JobId : 22 Burst Time : 20 Memory Required : 200 terminated
+Job 22 completed with Turnaround Time: 336, Waiting Time: 316
+-----------------------------------------------------------------------------
+JobId : 16 Burst Time : 21 Memory Required : 210 started execution.
 
-The Average Waiting time : 229
+JobId : 16 Burst Time : 21 Memory Required : 210 terminated
+Job 16 completed with Turnaround Time: 357, Waiting Time: 336
+-----------------------------------------------------------------------------
+JobId : 20 Burst Time : 23 Memory Required : 230 started execution.
 
----------------------------------------------------
+JobId : 20 Burst Time : 23 Memory Required : 230 terminated
+Job 20 completed with Turnaround Time: 380, Waiting Time: 357
+-----------------------------------------------------------------------------
+JobId : 23 Burst Time : 25 Memory Required : 250 started execution.
+
+JobId : 23 Burst Time : 25 Memory Required : 250 terminated
+Job 23 completed with Turnaround Time: 405, Waiting Time: 380
+-----------------------------------------------------------------------------
+JobId : 18 Burst Time : 26 Memory Required : 290 started execution.
+
+JobId : 18 Burst Time : 26 Memory Required : 290 terminated
+Job 18 completed with Turnaround Time: 431, Waiting Time: 405
+-----------------------------------------------------------------------------
+JobId : 17 Burst Time : 27 Memory Required : 310 started execution.
+
+JobId : 17 Burst Time : 27 Memory Required : 310 terminated
+Job 17 completed with Turnaround Time: 458, Waiting Time: 431
+-----------------------------------------------------------------------------
+JobId : 21 Burst Time : 29 Memory Required : 330 started execution.
+
+JobId : 21 Burst Time : 29 Memory Required : 330 terminated
+Job 21 completed with Turnaround Time: 487, Waiting Time: 458
+-----------------------------------------------------------------------------
+SJF thread of execution is done.
 ERROR StatusLogger Log4j2 could not find a logging implementation. Please add log4j-core to the classpath. Using SimpleLogger to log to the console...
-Performance report generated successfully: src/PerformanceReport.xlsx
+Performance report generated successfully: PerforemnceReport.xlsx

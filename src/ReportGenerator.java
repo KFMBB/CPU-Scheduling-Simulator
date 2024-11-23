@@ -7,7 +7,7 @@ import java.util.Queue;
 
 public class ReportGenerator {
     private static final String[] HEADERS = {"Job ID", "Job Size (Memory Required)", "Burst Time", "Waiting Time", "Turnaround Time"};
-    private static final String FILE_NAME = "src/PerformanceReport.xlsx";
+    private static final String FILE_NAME = "PerforemnceReport.xlsx";
 
     // Generate a single sheet report
     public void generateReport(Queue<Job> jobs, String algorithmName) {
