@@ -48,8 +48,9 @@ public class Scheduler implements Runnable {
                 int counter = 0; // Counter to bound the burst time
                 int burstTime = job.getPcb().getBurstTime();
                 memoryManager.systemCalls.startProcess(job);
-                System.out.println("----------"); // For debugging
+                System.out.println("-----------------------------------------------------------------------------"); // For debugging
                 System.out.println(job.getJobDetails() + " started execution.");
+                System.out.println();
                 // Simulate job processing
                 while (counter != burstTime) {
                     counter++;
@@ -59,24 +60,42 @@ public class Scheduler implements Runnable {
                 job.getPcb().setTurnaroundTime(log); // Set turnaround time
                 job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - burstTime);  // Set the waiting time
                 memoryManager.systemCalls.terminateProcess(job);
-                System.out.println("----------"); // For debugging
+                System.out.println("-----------------------------------------------------------------------------"); // For debugging
                 System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " + job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());
+                System.out.println();
                 FCFS.add(job);
             }
+            else {
+                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println("Waiting for Memory manager to add jobs to readyQueue.");
+                System.out.println();
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        System.out.println("----------"); // For debugging
+        System.out.println("-----------------------------------------------------------------------------"); // For debugging
         System.out.println(schedulingAlgorithm + " thread of execution is done.");
     }
 
     // Placholder for RR Algo
     public void runRoundRobin() {
-
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         roundRobin = new LinkedList<Job>();
         while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {
             Job job = readyQueue.poll();
             if (job != null) {
                 int remainingTime = job.getPcb().getRemainingTime(); //RemainingTime inital is burst time
                 memoryManager.systemCalls.startProcess(job);
+                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println(job.getJobDetails() + " started execution.");
+                System.out.println();
                 int i = timeQuantum;
                 // Simulate job processing for TimeQuantum which is 8 ms
                 while (i > 0 && remainingTime != 0) {
@@ -96,9 +115,20 @@ public class Scheduler implements Runnable {
                     readyQueue.add(job);
                 }
             }
+            else {
+                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println("Waiting for Memory manager to add jobs to readyQueue.");
+                System.out.println();
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        System.out.println("----------"); // For debugging
+        System.out.println("-----------------------------------------------------------------------------"); // For debugging
         System.out.println(schedulingAlgorithm + " thread of execution is done.");
+        System.out.println();
     }
 
     // Placeholder for SJF ALGO
@@ -107,6 +137,13 @@ public class Scheduler implements Runnable {
         PriorityQueue<Job> PreadyQueue = new PriorityQueue<Job>();
         SJF = new LinkedList<Job>();
         while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {//empty the readyQueue to the Priorty Queue
+            System.out.println("-----------------------------------------------------------------------------"); // For debugging
+            System.out.println("Waiting for Memory manager to add jobs to readyQueue.");
+            try{
+                Thread.sleep(300);
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
             while(!memoryManager.readyQueue.isEmpty()) {
                 Job job = readyQueue.poll();
                 if (job != null) {
@@ -119,7 +156,9 @@ public class Scheduler implements Runnable {
                 int counter = 0;
                 int burstTime = Sjob.getPcb().getBurstTime();
                 memoryManager.systemCalls.startProcess(Sjob);
-
+                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println(Sjob.getJobDetails() + " started execution.");
+                System.out.println();
                 //Simulate Sjob processing
 
                 while (counter != burstTime) {
@@ -140,65 +179,77 @@ public class Scheduler implements Runnable {
                 }
             }
         }
-        System.out.println("----------"); // For debugging
+        System.out.println("-----------------------------------------------------------------------------"); // For debugging
         System.out.println(schedulingAlgorithm + " thread of execution is done.");
     }
 
-    public void calculateStats() {
+    public void calculateStats(String schedulingAlgorithm) {
+        int size;
+        int averageTurnaround;
+        int averageWaiting ;
+        switch (schedulingAlgorithm) {
+            case "FCFS":
+                System.out.println("---------------------------------------------------");
+                System.out.println("Scheduling Algorithm: FCFS stats");
+                size = FCFS.size();
+                averageTurnaround = 0;
+                averageWaiting = 0;
+                while (!FCFS.isEmpty()) {   //Calculate total turnaround time and waiting time
+                    Job job = FCFS.poll();
+                    averageTurnaround += job.getPcb().getTurnaroundTime();
+                    averageWaiting += job.getPcb().getWaitingTime();
+                }
+                averageTurnaround = averageTurnaround / size;// Calculate averageTurnAroundtime
+                System.out.println("\nThe Average Turn Around Time : " + averageTurnaround);
 
-        System.out.println("Scheduling Algorithm: FCFS ");
-        int size = FCFS.size();//reset size, turnaround and waiting time
-        int averageTurnaround = 0;
-        int averageWaiting = 0;
-        while (!FCFS.isEmpty()) {   //Calculate total turnaround time and waiting time
-            Job job = FCFS.poll();
-            averageTurnaround += job.getPcb().getTurnaroundTime();
-            averageWaiting += job.getPcb().getWaitingTime();
+                averageWaiting = averageWaiting / size;// Calculate Waitingtime
+                System.out.println("\nThe Average Waiting time : " + averageWaiting);
+
+                System.out.println("\n---------------------------------------------------");
+                break;
+
+            case "RoundRobin":
+                System.out.println("---------------------------------------------------");
+                System.out.println("Scheduling Algorithm: RoundRobin stats");
+                size = roundRobin.size();//reset size, turnaround and waiting time
+                averageTurnaround = 0;
+                averageWaiting = 0;
+
+                while (!roundRobin.isEmpty()) {  //Calculate total turnaround time and waiting time
+                    Job job = roundRobin.poll();
+                    averageTurnaround += job.getPcb().getTurnaroundTime();
+                    averageWaiting += job.getPcb().getWaitingTime();
+                }
+                averageTurnaround = averageTurnaround / size;// Calculate averageTurnAroundtime
+                System.out.println("\nThe Average Turn Around Time : " + averageTurnaround);
+
+                averageWaiting = averageWaiting / size;// Calculate averageWaitingtime
+                System.out.println("\nThe Average Waiting time : " + averageWaiting);
+                System.out.println("---------------------------------------------------");
+                break;
+            case "SJF":
+                System.out.println("---------------------------------------------------");
+                System.out.println("Scheduling Algorithm: SJF stats:");
+                size = SJF.size(); //reset size, turnaround and waiting time
+                averageTurnaround = 0;
+                averageWaiting = 0;
+
+                while (!SJF.isEmpty()) {  //Calculate total turnaround time and waiting time
+                    Job job = SJF.poll();
+                    averageTurnaround += job.getPcb().getTurnaroundTime();
+                    averageWaiting += job.getPcb().getWaitingTime();
+                }
+                averageTurnaround = averageTurnaround / size; // Calculate averageTurnAroundtime
+                System.out.println("\nThe Average Turn Around Time : " + averageTurnaround);
+
+                averageWaiting = averageWaiting / size; //Calculate averageWaitingtime
+                System.out.println("\nThe Average Waiting time : " + averageWaiting);
+                System.out.println("---------------------------------------------------");
+                break;
+            default:
+                System.out.println("Unknown scheduling algorithm.");
+
         }
-        averageTurnaround = averageTurnaround / size;// Calculate averageTurnAroundtime
-        System.out.println("\nThe Average Turn Around Time : " + averageTurnaround);
-
-        averageWaiting = averageWaiting / size;// Calculate Waitingtime
-        System.out.println("\nThe Average Waiting time : " + averageWaiting);
-
-        System.out.println("\n---------------------------------------------------");
-        System.out.println("\nScheduling Algorithm: RoundRobin ");
-
-
-        size = roundRobin.size();//reset size, turnaround and waiting time
-        averageTurnaround = 0;
-        averageWaiting = 0;
-
-        while (!roundRobin.isEmpty()) {  //Calculate total turnaround time and waiting time
-            Job job = roundRobin.poll();
-            averageTurnaround += job.getPcb().getTurnaroundTime();
-            averageWaiting += job.getPcb().getWaitingTime();
-        }
-        averageTurnaround = averageTurnaround / size;// Calculate averageTurnAroundtime
-        System.out.println("\nThe Average Turn Around Time : " + averageTurnaround);
-
-        averageWaiting = averageWaiting / size;// Calculate averageWaitingtime
-        System.out.println("\nThe Average Waiting time : " + averageWaiting);
-
-        System.out.println("\n---------------------------------------------------");
-
-        System.out.println("\nScheduling Algorithm: SJF ");
-
-        size = SJF.size();//reset size, turnaround and waiting time
-        averageTurnaround = 0;
-        averageWaiting = 0;
-
-        while (!SJF.isEmpty()) {  //Calculate total turnaround time and waiting time
-            Job job = SJF.poll();
-            averageTurnaround += job.getPcb().getTurnaroundTime();
-            averageWaiting += job.getPcb().getWaitingTime();
-        }
-        averageTurnaround = averageTurnaround / size; // Calculate averageTurnAroundtime
-        System.out.println("\nThe Average Turn Around Time : " + averageTurnaround);
-
-        averageWaiting = averageWaiting / size; //Calculate averageWaitingtime
-        System.out.println("\nThe Average Waiting time : " + averageWaiting);
-
     }
 
     public Queue<Job> getCompletedJobs(String schedulingAlgorithm) {
