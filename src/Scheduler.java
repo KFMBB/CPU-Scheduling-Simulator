@@ -12,12 +12,13 @@ public class Scheduler implements Runnable {
     private Queue<Job> roundRobin;
     private Queue<Job> SJF;
     private static int log = 0;     // Log variable to keep track of waiting time (WT) and turnaround time (TA)
-
+    private ExecutionLog executionLog; // New log for execution details
     // Constructor to set time quantum and scheduling algorithm
     public Scheduler(Queue<Job> readyQueue, String schedulingAlgorithm, MemoryManager memoryManager) {
         this.readyQueue = readyQueue;
         this.schedulingAlgorithm = schedulingAlgorithm;
         this.memoryManager = memoryManager;
+        this.executionLog = new ExecutionLog();
     }
 
     // The main run method to start the scheduler thread
@@ -47,6 +48,7 @@ public class Scheduler implements Runnable {
             if (job != null) {
                 int counter = 0; // Counter to bound the burst time
                 int burstTime = job.getPcb().getBurstTime();
+                int startTime = log;
                 memoryManager.systemCalls.startProcess(job);
                 System.out.println("-----------------------------------------------------------------------------"); // For debugging
                 System.out.println(job.getJobDetails() + " started execution.");
@@ -64,6 +66,7 @@ public class Scheduler implements Runnable {
                 System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " + job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());
                 System.out.println();
                 FCFS.add(job);
+                executionLog.log(job.getPcb().getId(), startTime, log, 0, job.getPcb().getState()); // This will keep detailed logs of scheduling behavior.
             }
             else {
                 System.out.println("-----------------------------------------------------------------------------"); // For debugging
@@ -97,6 +100,7 @@ public class Scheduler implements Runnable {
                 System.out.println(job.getJobDetails() + " started execution.");
                 System.out.println();
                 int i = timeQuantum;
+                int startTime = log;
                 // Simulate job processing for TimeQuantum which is 8 ms
                 while (i > 0 && remainingTime != 0) {
                     remainingTime--;
@@ -112,8 +116,10 @@ public class Scheduler implements Runnable {
                     roundRobin.add(job);
                 } else {  //update remaingTime if not finshed and add to ready queue again until its finshed
                     job.getPcb().setRemainingTime(remainingTime);
+                    job.getPcb().setState(State.READY);
                     readyQueue.add(job);
                 }
+                executionLog.log(job.getPcb().getId(), startTime, startTime+8, remainingTime, job.getPcb().getState());
             }
             else {
                 System.out.println("-----------------------------------------------------------------------------"); // For debugging
@@ -155,6 +161,7 @@ public class Scheduler implements Runnable {
                 Job Sjob = PreadyQueue.poll();
                 int counter = 0;
                 int burstTime = Sjob.getPcb().getBurstTime();
+                int startTime = log;
                 memoryManager.systemCalls.startProcess(Sjob);
                 System.out.println("-----------------------------------------------------------------------------"); // For debugging
                 System.out.println(Sjob.getJobDetails() + " started execution.");
@@ -173,6 +180,7 @@ public class Scheduler implements Runnable {
                 System.out.println("Job " + Sjob.getPcb().getId() + " completed with Turnaround Time: " +
                         Sjob.getPcb().getTurnaroundTime() + ", Waiting Time: " + Sjob.getPcb().getWaitingTime());
                 SJF.add(Sjob);
+                executionLog.log(Sjob.getPcb().getId(), startTime, log, 0, Sjob.getPcb().getState()); // This will keep detailed logs of scheduling behavior.
                 while (!readyQueue.isEmpty()) { //check if the readyQueue got any new jobs after completing a Sjob and then insert it in the priorty Queue
                     Job job1 = readyQueue.poll();
                     PreadyQueue.add(job1);
@@ -264,5 +272,9 @@ public class Scheduler implements Runnable {
                 System.out.println("Unknown scheduling algorithm.");
                 return null;
         }
+    }
+
+    public ExecutionLog getExecutionLog() {
+        return executionLog;
     }
 }

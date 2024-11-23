@@ -71,7 +71,10 @@ public class main {
 
 //        scheduler.calculateStats(schedulingAlgorithm);
 
-        reportGenerator.generateReport(scheduler.getCompletedJobs(schedulingAlgorithm), schedulingAlgorithm);
+        reportGenerator.generatePerformanceReport(scheduler.getCompletedJobs(schedulingAlgorithm), schedulingAlgorithm);
+        reportGenerator.generateExecutionLogReport(scheduler.getExecutionLog().getLogEntries(), schedulingAlgorithm);
+
+
 
     }
 }
