@@ -43,6 +43,12 @@ public class Scheduler implements Runnable {
     public void runFCFS() {
 
         FCFS = new LinkedList<Job>();
+        try {
+            Thread.sleep(100); // this is for Ordering the jobs in the Output.log
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {
             Job job = memoryManager.readyQueue.poll(); // Get the job at the head of the queue to process
             if (job != null) {
@@ -50,7 +56,7 @@ public class Scheduler implements Runnable {
                 int burstTime = job.getPcb().getBurstTime();
                 int startTime = log;
                 memoryManager.systemCalls.startProcess(job);
-                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println("-----------------------------------------------------------------------------");
                 System.out.println(job.getJobDetails() + " started execution.");
                 System.out.println();
                 // Simulate job processing
@@ -62,14 +68,14 @@ public class Scheduler implements Runnable {
                 job.getPcb().setTurnaroundTime(log); // Set turnaround time
                 job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - burstTime);  // Set the waiting time
                 memoryManager.systemCalls.terminateProcess(job);
-                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println("-----------------------------------------------------------------------------");
                 System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " + job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());
                 System.out.println();
                 FCFS.add(job);
                 executionLog.log(job.getPcb().getId(), startTime, log, 0, job.getPcb().getState()); // This will keep detailed logs of scheduling behavior.
             }
             else {
-                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println("-----------------------------------------------------------------------------");
                 System.out.println("Waiting for Memory manager to add jobs to readyQueue.");
                 System.out.println();
                 try {
@@ -79,24 +85,25 @@ public class Scheduler implements Runnable {
                 }
             }
         }
-        System.out.println("-----------------------------------------------------------------------------"); // For debugging
+        System.out.println("-----------------------------------------------------------------------------");
         System.out.println(schedulingAlgorithm + " thread of execution is done.");
     }
 
     // Placholder for RR Algo
     public void runRoundRobin() {
-        try {
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
         roundRobin = new LinkedList<Job>();
         while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {
+            try {
+                Thread.sleep(150); // this is to wait for the thread to re fill the ready queue
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Job job = readyQueue.poll();
             if (job != null) {
                 int remainingTime = job.getPcb().getRemainingTime(); //RemainingTime inital is burst time
                 memoryManager.systemCalls.startProcess(job);
-                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println("-----------------------------------------------------------------------------");
                 System.out.println(job.getJobDetails() + " started execution.");
                 System.out.println();
                 int i = timeQuantum;
@@ -119,11 +126,11 @@ public class Scheduler implements Runnable {
                     job.getPcb().setState(State.READY);
                     readyQueue.add(job);
                 }
-                executionLog.log(job.getPcb().getId(), startTime, startTime+8, remainingTime, job.getPcb().getState());
+                executionLog.log(job.getPcb().getId(), startTime, log, remainingTime, job.getPcb().getState());
                 // Check !!!!!!!!
             }
             else {
-                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println("-----------------------------------------------------------------------------");
                 System.out.println("Waiting for Memory manager to add jobs to readyQueue.");
                 System.out.println();
                 try {
@@ -133,7 +140,7 @@ public class Scheduler implements Runnable {
                 }
             }
         }
-        System.out.println("-----------------------------------------------------------------------------"); // For debugging
+        System.out.println("-----------------------------------------------------------------------------");
         System.out.println(schedulingAlgorithm + " thread of execution is done.");
         System.out.println();
     }
@@ -144,7 +151,7 @@ public class Scheduler implements Runnable {
         PriorityQueue<Job> PreadyQueue = new PriorityQueue<Job>();
         SJF = new LinkedList<Job>();
         while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {//empty the readyQueue to the Priorty Queue
-            System.out.println("-----------------------------------------------------------------------------"); // For debugging
+            System.out.println("-----------------------------------------------------------------------------");
             System.out.println("Waiting for Memory manager to add jobs to readyQueue.");
             try{
                 Thread.sleep(300);
@@ -164,7 +171,7 @@ public class Scheduler implements Runnable {
                 int burstTime = Sjob.getPcb().getBurstTime();
                 int startTime = log;
                 memoryManager.systemCalls.startProcess(Sjob);
-                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println("-----------------------------------------------------------------------------");
                 System.out.println(Sjob.getJobDetails() + " started execution.");
                 System.out.println();
                 //Simulate Sjob processing
@@ -183,7 +190,7 @@ public class Scheduler implements Runnable {
                 executionLog.log(Sjob.getPcb().getId(), startTime, log, 0, Sjob.getPcb().getState()); // This will keep detailed logs of scheduling behavior.
             }
         }
-        System.out.println("-----------------------------------------------------------------------------"); // For debugging
+        System.out.println("-----------------------------------------------------------------------------");
         System.out.println(schedulingAlgorithm + " thread of execution is done.");
     }
 
