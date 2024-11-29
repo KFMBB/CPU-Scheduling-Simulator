@@ -42,12 +42,12 @@ public class Scheduler implements Runnable {
     // FCFS scheduling implementation
     public void runFCFS() {
 
-        FCFS = new LinkedList<Job>();
         try {
-            Thread.sleep(100); // this is for Ordering the jobs in the Output.log
+            Thread.sleep(150); // this is for Ordering the jobs in the Output.log
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        FCFS = new LinkedList<Job>();
 
         while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {
             Job job = memoryManager.readyQueue.poll(); // Get the job at the head of the queue to process
@@ -91,7 +91,6 @@ public class Scheduler implements Runnable {
 
     // Placholder for RR Algo
     public void runRoundRobin() {
-
         roundRobin = new LinkedList<Job>();
         while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {
             try {
@@ -120,10 +119,14 @@ public class Scheduler implements Runnable {
                     job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - job.getPcb().getBurstTime());
                     memoryManager.systemCalls.releaseMemory(job);
                     memoryManager.systemCalls.terminateProcess(job);
+                    System.out.println("-----------------------------------------------------------------------------");
+                    System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " + job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());
                     roundRobin.add(job);
                 } else {  //update remaingTime if not finshed and add to ready queue again until its finshed
                     job.getPcb().setRemainingTime(remainingTime);
                     job.getPcb().setState(State.READY);
+                    System.out.println("-----------------------------------------------------------------------------");
+                    System.out.println(job.getJobDetails() + " leaving execution with remaining time: "+remainingTime);
                     readyQueue.add(job);
                 }
                 executionLog.log(job.getPcb().getId(), startTime, log, remainingTime, job.getPcb().getState());
@@ -133,11 +136,6 @@ public class Scheduler implements Runnable {
                 System.out.println("-----------------------------------------------------------------------------");
                 System.out.println("Waiting for Memory manager to add jobs to readyQueue.");
                 System.out.println();
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         }
         System.out.println("-----------------------------------------------------------------------------");
@@ -147,12 +145,9 @@ public class Scheduler implements Runnable {
 
     // Placeholder for SJF ALGO
     public void runSJF() {
-
         PriorityQueue<Job> PreadyQueue = new PriorityQueue<Job>();
         SJF = new LinkedList<Job>();
         while (!memoryManager.readyQueue.isEmpty() || !memoryManager.jobQueue.isEmpty()) {//empty the readyQueue to the Priorty Queue
-            System.out.println("-----------------------------------------------------------------------------");
-            System.out.println("Waiting for Memory manager to add jobs to readyQueue.");
             try{
                 Thread.sleep(300);
             }catch(InterruptedException e){
@@ -189,6 +184,9 @@ public class Scheduler implements Runnable {
                 SJF.add(Sjob);
                 executionLog.log(Sjob.getPcb().getId(), startTime, log, 0, Sjob.getPcb().getState()); // This will keep detailed logs of scheduling behavior.
             }
+            System.out.println("-----------------------------------------------------------------------------");
+            System.out.println("Waiting for Memory manager to add jobs to readyQueue.");
+            System.out.println();
         }
         System.out.println("-----------------------------------------------------------------------------");
         System.out.println(schedulingAlgorithm + " thread of execution is done.");
