@@ -19,7 +19,7 @@ public class main {
 
         Queue<Job> jobQueue = new LinkedList<>();
 
-        String filePath = "src/TestCase.txt";
+        String filePath = "src/Test Cases/TestCase.txt";
 
         System.out.println("Choose a scheduling algorithm to run:");
         System.out.println("1. First-Come-First-Serve (FCFS)");
