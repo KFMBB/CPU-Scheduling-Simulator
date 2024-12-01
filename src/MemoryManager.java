@@ -40,16 +40,16 @@ public class MemoryManager implements Runnable {
                     systemCalls.allocateMemory(job); // Allocate memory for the job
                     job.getPcb().setArrivalTime(arrivalTime);
                     readyQueue.add(jobQueue.poll()); // Move job to the readyQueue
-                    System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                    System.out.println("-----------------------------------------------------------------------------");
                     System.out.println(job.getJobDetails()+" added to ready queue.");
                     System.out.println();
                 }
                 else {
-                    System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                    System.out.println("-----------------------------------------------------------------------------");
                     System.out.println("Insufficient memory for Job " + job.getJobDetails());
                     System.out.println("Waiting for memory to become available.");
                     System.out.println("Memory used: " + usedMemory);
-                    System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                    System.out.println("-----------------------------------------------------------------------------");
                     arrivalTime++; // Since we're not counting the time that the jobs in the job queue are kept, we'll keep track of when they got into the ready queue.
                     try {
                         Thread.sleep(200);
@@ -60,7 +60,7 @@ public class MemoryManager implements Runnable {
             }
 
             if(jobQueue.isEmpty() && readyQueue.isEmpty()) {
-                System.out.println("-----------------------------------------------------------------------------"); // For debugging
+                System.out.println("-----------------------------------------------------------------------------");
                 System.out.println("Memory Manager thread finished execution");
                 break;
             }
