@@ -98,7 +98,7 @@ public class Scheduler implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Job job = readyQueue.poll();
+            Job job = memoryManager.readyQueue.poll();
             if (job != null) {
                 int remainingTime = job.getPcb().getRemainingTime(); //RemainingTime inital is burst time
                 memoryManager.systemCalls.startProcess(job);
@@ -127,7 +127,7 @@ public class Scheduler implements Runnable {
                     job.getPcb().setState(State.READY);
                     System.out.println("-----------------------------------------------------------------------------");
                     System.out.println(job.getJobDetails() + " leaving execution with remaining time: "+remainingTime);
-                    readyQueue.add(job);
+                    memoryManager.readyQueue.add(job);
                 }
                 executionLog.log(job.getPcb().getId(), startTime, log, remainingTime, job.getPcb().getState());
                 // Check !!!!!!!!
@@ -154,7 +154,7 @@ public class Scheduler implements Runnable {
                 e.printStackTrace();
             }
             while(!memoryManager.readyQueue.isEmpty()) {
-                Job job = readyQueue.poll();
+                Job job = memoryManager.readyQueue.poll();
                 if (job != null) {
                     PreadyQueue.add(job);
                 }
