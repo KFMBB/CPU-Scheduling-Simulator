@@ -129,7 +129,6 @@ public class Scheduler implements Runnable {
                     memoryManager.readyQueue.add(job);
                 }
                 executionLog.log(job.getPcb().getId(), startTime, log, remainingTime, job.getPcb().getState());
-                // Check !!!!!!!!
             }
             else {
                 System.out.println("-----------------------------------------------------------------------------");
