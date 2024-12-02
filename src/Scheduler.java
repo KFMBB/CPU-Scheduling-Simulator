@@ -117,7 +117,6 @@ public class Scheduler implements Runnable {
                 if (remainingTime == 0) {
                     job.getPcb().setTurnaroundTime(log - job.getPcb().getArrivalTime());
                     job.getPcb().setWaitingTime(job.getPcb().getTurnaroundTime() - job.getPcb().getBurstTime());
-                    memoryManager.systemCalls.releaseMemory(job);
                     memoryManager.systemCalls.terminateProcess(job);
                     System.out.println("-----------------------------------------------------------------------------");
                     System.out.println("Job " + job.getPcb().getId() + " completed with Turnaround Time: " + job.getPcb().getTurnaroundTime() + ", Waiting Time: " + job.getPcb().getWaitingTime());
